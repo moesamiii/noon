@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // ---------------------------------------------
-// Environment Variables
+// Environment Variabless
 // ---------------------------------------------
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "my_secret";
 const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
