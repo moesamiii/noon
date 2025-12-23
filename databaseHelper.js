@@ -1,7 +1,7 @@
 const { createClient } = require("@supabase/supabase-js");
 
 // ==============================================
-//  Create Supabase inside a function (fix Vercel)
+// Create Supabase inside a function (fix Vercel)
 // ==============================================
 function getSupabase() {
   return createClient(
@@ -11,7 +11,7 @@ function getSupabase() {
 }
 
 // ==============================================
-// Normalize phone (FIXED "do NOT remove leading zero")
+// Normalize phone (do NOT remove leading zero)
 // ==============================================
 function normalizePhone(phone) {
   if (!phone) return "";
@@ -81,7 +81,6 @@ async function findLastBookingByPhone(rawPhone) {
     }
 
     if (data && data.length > 0) return data[0];
-
     return null;
   } catch (err) {
     console.error("❌ Unexpected Supabase find error:", err.message);
@@ -113,8 +112,39 @@ async function updateBookingStatus(id, newStatus) {
   }
 }
 
+// ==============================================
+// ✅ NEW: Get ALL bookings for dashboard
+// ==============================================
+async function getAllBookingsFromSupabase() {
+  try {
+    const supabase = getSupabase();
+
+    console.log("📥 Fetching all bookings from Supabase...");
+
+    const { data, error } = await supabase
+      .from("bookings")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("❌ Supabase fetch error:", error.message);
+      return [];
+    }
+
+    console.log(`✅ Retrieved ${data.length} bookings from Supabase`);
+    return data;
+  } catch (err) {
+    console.error("❌ Unexpected fetch error:", err.message);
+    return [];
+  }
+}
+
+// ==============================================
+// ✅ UPDATED EXPORTS
+// ==============================================
 module.exports = {
   findLastBookingByPhone,
   updateBookingStatus,
   insertBookingToSupabase,
+  getAllBookingsFromSupabase, // ✅ NEW FUNCTION ADDED
 };
