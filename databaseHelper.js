@@ -113,12 +113,11 @@ async function updateBookingStatus(id, newStatus) {
 }
 
 // ==============================================
-// ✅ NEW: Get ALL bookings for dashboard
+// ✅ Get ALL bookings for dashboard
 // ==============================================
 async function getAllBookingsFromSupabase() {
   try {
     const supabase = getSupabase();
-
     console.log("📥 Fetching all bookings from Supabase...");
 
     const { data, error } = await supabase
@@ -140,11 +139,11 @@ async function getAllBookingsFromSupabase() {
 }
 
 // ==============================================
-// ✅ UPDATED EXPORTS
+// ✅ EXPORTS
 // ==============================================
 module.exports = {
   findLastBookingByPhone,
   updateBookingStatus,
   insertBookingToSupabase,
-  getAllBookingsFromSupabase, // ✅ NEW FUNCTION ADDED
+  getAllBookingsFromSupabase,
 };
